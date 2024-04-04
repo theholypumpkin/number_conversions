@@ -23,16 +23,137 @@ I wanted to get a better understanding of bash. So here are 3 bash scripts which
 
 ## Usage
 
+### bin
+
+convert a decimal number $12345$ into binary
+
 ```bash
-    # convert decimal number 12345 into binary
     bin 12345
     # 12345 = 0b11000000111001
 ```
 
+convert a hexadecimal number $0xBEEF$ into binary
+
 ```bash
-    # convert hexadecimal number 0xBEEF into binary
     bin 0xBEEF
     # 0xBEEF = 0b1011111011101111
+```
+
+convert multiple decimal numbers into binary
+
+```bash
+    bin 1 2 3 4
+    # 1 = 0b1
+    # 2 = 0b10
+    # 3 = 0b11
+    # 4 = 0b100
+```
+
+convert multiple hexadecimal numbers into binary
+**IMPORTANT this is currently buggy**
+
+```bash
+    bin 0x1 0x2 0x3 0x4
+    # 0x1 = 0b1     # thats ok
+    # 0x2 = 0b1     # wrong
+    # 0x3 = 0b1     # wrong
+    # 0x4 = 0b1     # wrong
+```
+mix decimal and hexadecimal
+**IMPORTANT this is currently buggy<br>only use one hexadezimal number as the <u>first<\u> parameter**
+
+```bash
+    bin 0x1 02 03 04
+    # 0x1 = 0b1     # thats ok
+    # 2 = 0b10
+    # 3 = 0b11
+    # 4 = 0b100
+```
+
+### hex
+
+convert a decimal number $12345$ into hexadecimal
+
+```bash
+    hex 12345
+    # 12345 = 0x3039
+```
+
+convert a binary number $0b1011111011101111$ into hexadecimal
+
+```bash
+    hex 0b1011111011101111
+    # 0b1011111011101111 = 0xBEEF
+```
+
+convert multiple decimal numbers into hexadecimal
+
+```bash
+    hex 123 456 789
+    # 123 = 0x7B
+    # 456 = 0x1C8
+    # 789 = 0x315
+```
+
+convert multiple binary numbers into hexadecimal.
+**IMPORTANT this is currently buggy**
+
+```bash
+    bin 0b1011111011101111 0b1010
+    # 0b1011111011101111 = 0xBEEF   # thats ok
+    # 0x1010 = 0xBEEF               # wrong
+```
+mix decimal and hexadecimal
+**IMPORTANT this is currently buggy<br>only use one binary number as the <u>first<\u> parameter**
+
+```bash
+    hex 0b1010 123 456
+    # 0b1010 = 0xA
+    # 123 = 0x7B
+    # 456 = 0x1C8
+```
+
+### dec
+
+convert a hexdecimal number $0xBEEF$ into decimal
+
+```bash
+    dec 0XBEEF
+    # 0XBEEF = 48879
+```
+
+convert a binary number $0b1011111011101111$ into decimal
+
+```bash
+    dec 0b1011111011101111
+    # 0b1011111011101111 = 48879
+```
+
+convert multiple hexadecimal numbers into decimal
+
+```bash
+    dec 0xBEEF 0xDEAD 0xCAFE
+    # 0XBEEF = 48879
+    # 0XDEAD = 57005
+    # 0XCAFE = 51966
+```
+
+convert multiple binary numbers into decimal.
+
+```bash
+    dec 0b1011 0b1110 0b1110 0b1111
+    # 0b1011 = 11
+    # 0b1110 = 14
+    # 0b1110 = 14
+    # 0b1111 = 15
+```
+mix binary and hexadecimal
+
+```bash
+    dec 0b1011 0xBEEF
+    # 0b1011 = 11
+    # 0xBEEF = 48879
+
 ```
 
 ## known issues
