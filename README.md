@@ -52,6 +52,6 @@ I wanted to get a better understanding of bash. So here are 3 bash scripts which
 
 ## won't fix
 
-- false positives in automatic binary deftection in `bin` and `hex`<br>
+- false positives in automatic binary detection in `bin` and `hex`<br>
 &emsp;When you enter a number which starts with $0B$ and than it is followed exclusivly by $0$ and $1$ like, $0B1001001$ it will be interpreteted as binary, even though it could also be a valid hexadecimal number. To avoid it just leave out the leading $0$ like $B1001001$ and you are fine.
 
