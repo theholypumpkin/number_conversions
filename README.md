@@ -50,6 +50,7 @@ convert multiple decimal numbers into binary
 ```
 
 convert multiple hexadecimal numbers into binary
+
 **IMPORTANT this is currently buggy**
 
 ```bash
@@ -60,6 +61,7 @@ convert multiple hexadecimal numbers into binary
     # 0x4 = 0b1     # wrong
 ```
 mix decimal and hexadecimal
+
 **IMPORTANT this is currently buggy<br>only use one hexadezimal number as the first parameter**
 
 ```bash
@@ -96,6 +98,7 @@ convert multiple decimal numbers into hexadecimal
 ```
 
 convert multiple binary numbers into hexadecimal.
+
 **IMPORTANT this is currently buggy**
 
 ```bash
@@ -104,6 +107,7 @@ convert multiple binary numbers into hexadecimal.
     # 0x1010 = 0xBEEF               # wrong
 ```
 mix decimal and hexadecimal
+
 **IMPORTANT this is currently buggy<br>only use one binary number as the first parameter**
 
 ```bash
