@@ -60,7 +60,7 @@ convert multiple hexadecimal numbers into binary
     # 0x4 = 0b1     # wrong
 ```
 mix decimal and hexadecimal
-**IMPORTANT this is currently buggy<br>only use one hexadezimal number as the <u>first<\u> parameter**
+**IMPORTANT this is currently buggy<br>only use one hexadezimal number as the first parameter**
 
 ```bash
     bin 0x1 02 03 04
@@ -104,7 +104,7 @@ convert multiple binary numbers into hexadecimal.
     # 0x1010 = 0xBEEF               # wrong
 ```
 mix decimal and hexadecimal
-**IMPORTANT this is currently buggy<br>only use one binary number as the <u>first<\u> parameter**
+**IMPORTANT this is currently buggy<br>only use one binary number as the first parameter**
 
 ```bash
     hex 0b1010 123 456
