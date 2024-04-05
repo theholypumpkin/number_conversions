@@ -20,6 +20,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # =================================================================================================
+# Take any mathematical/numeric expression as an argument and return the absolute value
+# https://stackoverflow.com/questions/29223313/absolute-value-of-a-number
+abs() { 
+    echo $(( $1 > 0 ? $1 : -$1 )) # retun the absolut value 
+}
+
+# _________________________________________________________________________________________________
+calculate_on_base(){
+    if $1; then
+            # make binary
+            result=$(bc -l <<< "obase=2; ibase=$3; $(abs $2)")
+            # flip the bits and add 1
+            invert=$(echo $result | tr "01" "10")
+            invert=$(bc -l <<< "obase=2; ibase=2; $invert+1")
+            # concat
+            output=:-0b${result}:0b${invert}
+        else
+            output=":0b$(bc -l <<< "obase=2; ibase=$3; $2")"
+        fi
+}
+
+# =================================================================================================
 table="Input:Binary:Two Complement\n"
 
 for number in "$@"
@@ -34,24 +56,14 @@ do
 	# if a 0b prefix exists, check if hexadecimal
 	if [ $prefix = '0X' ]; then
 		number_no_prefix=$(echo $number_upper | cut -c3-);
-		output=$(echo "$number:0b$({ echo 'obase=2'; echo 'ibase=F+1'; echo $number_no_prefix; } | bc)\n")
-        table="${table}${output}" # concat conversion to table
+
+        calculate_on_base $negative $number_no_prefix F+1 # calculate with base 10
+		# output=$(echo "$number:0b$({ echo 'obase=2'; echo 'ibase=F+1'; echo $number_no_prefix; } | bc)\n")
+        table="${table}${number}${output}\n" # concat conversion to table
 	# -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 	# else interpret as decimal
 	else
-        # check if negative number
-        if $negative; then
-            # make positve
-            result=$(bc -l <<< "obase=2; ibase=A; $number*-1")
-            # flip the bits
-            invert=$(echo $result | tr "01" "10")
-            # make twos complement
-            invert=$(bc -l <<< "obase=2; ibase=2; $invert+1")
-            # concat
-            output=:-0b${result}:0b${invert}
-        else
-            output=":0b$(bc -l <<< "obase=2; ibase=A; $number")"
-        fi
+        calculate_on_base $negative $number A # calculate with base 10
 		# concat to table
         table="${table}${number}${output}\n" # concat conversion to table
 	fi
