@@ -38,7 +38,7 @@ do
 	# -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 	# else interpret as decimal
 	else
-		output=$(echo "$number = 0b$({ echo 'obase=2'; echo 'ibase=A'; echo $number; } | bc)\n")
+		output=$(echo "$number:0b$({ echo 'obase=2'; echo 'ibase=A'; echo $number; } | bc)\n")
         table="${table}${output}" # concat conversion to table
 	fi
 
