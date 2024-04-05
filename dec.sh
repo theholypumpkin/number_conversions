@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# file: dec.sh
+# file dec.sh
 
 # Copyright (C) 2024 <theholypumpkin>
 
@@ -19,60 +19,54 @@
 # DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# ==================================================================================================
-# cuts of the prefix and than prints the hexadecimal number as a  decimal number
-hex_to_dec(){
-	# cut of indentifier prefix
-	local number_no_prefix=$(echo $1 | cut -c3-);
-
-	# print the numbers as decimal
-	echo "$1 = $((16#$number_no_prefix))";
+# =================================================================================================
+concat_as_binary(){
+    local output=$(echo "$1:$({ echo 'obase=10'; echo 'ibase=2'; echo $2; } | bc)\n")
+    table="${table}${output}" # concat conversion to table
 }
-
-# --------------------------------------------------------------------------------------------------
-# onliner to print the binary number as decimal. $1 is the number with its 0b prefix and $2 is the
-# number without it 0b prefix.
-bin_to_dec(){ echo "$1 = $((2#$2))"; }
-
-# --------------------------------------------------------------------------------------------------
-# checks if the passed parameter is equal to a regex only allowing binary. It this is the case
-# interpret the number as binary and print the matching decimal number.
-# There is the chance for a false positve. If we intend to convert a hexadecimal number which start
-# with the digits 0b and than an abritrary amounth of 0 and 1 follow. It will be considert as binary
-# and not hexadecimal. any other hexadezimal number starting with 0b is still considered hexadezimal
-# and therfore is converted correctly.
-check_binary(){
-	# cut of identifing prefix
-	local number_no_prefix=$(echo $1 | cut -c3-);
-	# echo $number_no_prefix
-
-	# check with regex if it is binary. Then print it as decimal. If not binary interpret as
-	# hexadecimal.
-	[[ $number_no_prefix =~ ^[01]+$ ]] && bin_to_dec $1 $number_no_prefix || hex_to_dec $1
+# _________________________________________________________________________________________________
+concat_as_hexadecimal(){
+    local output=$(echo "$1:$({ echo 'obase=10'; echo 'ibase=16'; echo $2; } | bc)\n")
+    table="${table}${output}" # concat conversion to table
 }
+# =================================================================================================
+table="Input:Decimal\n"
 
-# ==================================================================================================
-# main entrypoint
-# for each passed parameter try convertig it from bin or hex to dec.
 for number in "$@"
 do
+    # replace all lower case letters with upper case so bc doesn't complain
+    number_upper=$(echo $number | tr "a-z" "A-Z")
+    
 	# get prefix by cutting the first to character of
-	prefix=$(echo $number | cut -c1-2);
+	prefix=$(echo $number_upper | cut -c1-2);
 
-	# -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
-	# if a0x prefix exists, print as hex
-	if [ $prefix = '0x' ] || [ $prefix = '0X' ]; then
-		 hex_to_dec $number
-	# -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 	# if a 0b prefix exists, check if binay
-	elif [ $prefix = '0b' ] || [ $prefix = '0B' ]; then
-		check_binary $number
+	if [ $prefix = '0B' ]; then
+		number_no_prefix=$(echo $number_upper | cut -c3-);
+
+        # check if it is acctually a binary number using regex.
+        if [[ $number_no_prefix =~ ^[01]+$ ]]; then
+            # if it is true binary (or a false positv) concat it as binary
+            concat_as_binary $number $number_no_prefix
+        else
+            # else concat as hexadecimal
+            concat_as_hexadecimal $number $number_no_prefix
+        fi
 	# -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
-	# else interpret as hexadecimal
+    # if a 0x prefix exists, check if binay
+	elif [ $prefix = '0X' ]; then
+		number_no_prefix=$(echo $number_upper | cut -c3-);
+
+        concat_as_hexadecimal $number $number_no_prefix
+	# -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
+	# else interpret as hexdecimal
 	else
-		hex_to_dec "0x$number"
+        echo $number_upper
+		concat_as_hexadecimal $number $number_upper
 	fi
+
 done
 
+# print the table
+echo -e "$table" | column -t -s ':'
 # =================================================================================================
-# end of file
