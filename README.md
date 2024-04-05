@@ -51,22 +51,19 @@ convert multiple decimal numbers into binary
 
 convert multiple hexadecimal numbers into binary
 
-**IMPORTANT this is currently buggy**
-
 ```bash
     bin 0x1 0x2 0x3 0x4
-    # 0x1 = 0b1     # thats ok
-    # 0x2 = 0b1     # wrong
-    # 0x3 = 0b1     # wrong
-    # 0x4 = 0b1     # wrong
+    # 0x1 = 0b1
+    # 0x2 = 0b10
+    # 0x3 = 0b11
+    # 0x4 = 0b100
 ```
-mix decimal and hexadecimal
 
-**IMPORTANT this is currently buggy<br>only use one hexadezimal number as the first parameter**
+mix decimal and hexadecimal
 
 ```bash
     bin 0x1 02 03 04
-    # 0x1 = 0b1     # thats ok
+    # 0x1 = 0b1
     # 2 = 0b10
     # 3 = 0b11
     # 4 = 0b100
@@ -99,16 +96,14 @@ convert multiple decimal numbers into hexadecimal
 
 convert multiple binary numbers into hexadecimal.
 
-**IMPORTANT this is currently buggy**
-
 ```bash
     bin 0b1011111011101111 0b1010
-    # 0b1011111011101111 = 0xBEEF   # thats ok
-    # 0x1010 = 0xBEEF               # wrong
+    # 0b1011111011101111 = 0xBEEF   
+    # 0x1010 = 0xA             
 ```
+
 mix decimal and hexadecimal
 
-**IMPORTANT this is currently buggy<br>only use one binary number as the first parameter**
 
 ```bash
     hex 0b1010 123 456
@@ -151,6 +146,7 @@ convert multiple binary numbers into decimal.
     # 0b1110 = 14
     # 0b1111 = 15
 ```
+
 mix binary and hexadecimal
 
 ```bash
@@ -160,23 +156,7 @@ mix binary and hexadecimal
 
 ```
 
-## known issues
-
-- bin and hex do not support any lower case letters<br>
-&emsp;`bin 0xabc` won't work, but `bin 0xABC` will.
-
-- mixing of multiple bases in `bin` and `hex` return wrong result
-
-    ```bash
-        bin 123 567 0x237 1
-        # 123 = 0b1111011       # thats ok
-        # 567 = 0b1000110111    # thats ok
-        # 0X237 = 0b11          # wrong
-        # 1 = 0b1               # thats ok
-    ```
-
 ## won't fix
 
 - false positives in automatic binary detection in `bin` and `hex`<br>
 &emsp;When you enter a number which starts with $0B$ and than it is followed exclusivly by $0$ and $1$ like, $0B1001001$ it will be interpreteted as binary, even though it could also be a valid hexadecimal number. To avoid it just leave out the leading $0$ like $B1001001$ and you are fine.
-
