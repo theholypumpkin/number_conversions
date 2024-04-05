@@ -23,12 +23,15 @@
 # yes that is all.
 for number in "$@"
 do
+    # replace all lower case letters with upper case so bc doesn't complain
+    number_upper=$(echo $number | tr "a-z" "A-Z")
+    
 	# get prefix by cutting the first to character of
 	prefix=$(echo $number | cut -c1-2);
 
 	# if a 0b prefix exists, check if binay
 	if [ $prefix = '0b' ] || [ $prefix = '0B' ]; then
-		number_no_prefix=$(echo $1 | cut -c3-);
+		number_no_prefix=$(echo $number | cut -c3-);
 		echo "$number = 0x$({ echo 'obase=16'; echo 'ibase=2'; echo $number_no_prefix; } | bc)"
 	# -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 	# else interpret as decimal
