@@ -20,10 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # =================================================================================================
-table="Input:Binary\n"
+table="Input:Binary:Two Complement\n"
 
 for number in "$@"
 do
+    [[ $number -lt "0" ]] && negative=true || negative=false;
     # replace all lower case letters with upper case so bc doesn't complain
     number_upper=$(echo $number | tr "a-z" "A-Z")
 
@@ -38,12 +39,27 @@ do
 	# -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 	# else interpret as decimal
 	else
-		output=$(echo "$number:0b$({ echo 'obase=2'; echo 'ibase=A'; echo $number; } | bc)\n")
-        table="${table}${output}" # concat conversion to table
+        # check if negative number
+        if $negative; then
+            # make positve
+            result=$(bc -l <<< "obase=2; ibase=A; $number*-1")
+            # flip the bits
+            invert=$(echo $result | tr "01" "10")
+            # make twos complement
+            invert=$(bc -l <<< "obase=2; ibase=2; $invert+1")
+            # concat
+            output=:-0b${result}:0b${invert}
+        else
+            output=":0b$(bc -l <<< "obase=2; ibase=A; $number")"
+        fi
+		# concat to table
+        table="${table}${number}${output}\n" # concat conversion to table
 	fi
 
 done
 
 # print the table
 echo -e "$table" | column -t -s ':'
+
 # =================================================================================================
+# end of file
