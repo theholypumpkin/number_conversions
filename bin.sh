@@ -19,7 +19,7 @@
 # DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# ==================================================================================================
+# =================================================================================================
 table="Input:Binary\n"
 
 for number in "$@"
@@ -46,4 +46,4 @@ done
 
 # print the table
 echo -e "$table" | column -t -s ':'
-# ==================================================================================================
+# =================================================================================================
