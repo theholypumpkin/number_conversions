@@ -20,24 +20,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # ==================================================================================================
-# yes that is all.
+table="Input:Binary\n"
+
 for number in "$@"
 do
     # replace all lower case letters with upper case so bc doesn't complain
     number_upper=$(echo $number | tr "a-z" "A-Z")
-    
+
 	# get prefix by cutting the first to character of
 	prefix=$(echo $number_upper | cut -c1-2);
 
 	# if a 0b prefix exists, check if hexadecimal
 	if [ $prefix = '0X' ]; then
 		number_no_prefix=$(echo $number_upper | cut -c3-);
-		echo "$number = 0b$({ echo 'obase=2'; echo 'ibase=F+1'; echo $number_no_prefix; } | bc)"
+		output=$(echo "$number:0b$({ echo 'obase=2'; echo 'ibase=F+1'; echo $number_no_prefix; } | bc)\n")
+        table="${table}${output}" # concat conversion to table
 	# -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 	# else interpret as decimal
 	else
-		echo "$number = 0b$({ echo 'obase=2'; echo 'ibase=A'; echo $number; } | bc)"
+		output=$(echo "$number = 0b$({ echo 'obase=2'; echo 'ibase=A'; echo $number; } | bc)\n")
+        table="${table}${output}" # concat conversion to table
 	fi
 
 done
+
+# print the table
+echo -e "$table" | column -t -s ':'
 # ==================================================================================================

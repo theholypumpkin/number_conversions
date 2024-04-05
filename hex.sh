@@ -20,7 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # ==================================================================================================
-# yes that is all.
+table="Input:Hexadezimal\n"
+
 for number in "$@"
 do
     # replace all lower case letters with upper case so bc doesn't complain
@@ -32,12 +33,17 @@ do
 	# if a 0b prefix exists, check if binay
 	if [ $prefix = '0b' ] || [ $prefix = '0B' ]; then
 		number_no_prefix=$(echo $number | cut -c3-);
-		echo "$number = 0x$({ echo 'obase=16'; echo 'ibase=2'; echo $number_no_prefix; } | bc)"
+		output=$(echo "$number:0x$({ echo 'obase=16'; echo 'ibase=2'; echo $number_no_prefix; } | bc)\n")
+        table="${table}${output}" # concat conversion to table
 	# -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 	# else interpret as decimal
 	else
-		echo "$number = 0x$({ echo 'obase=16'; echo 'ibase=10'; echo $number; } | bc)"
+		output=$(echo "$number:0x$({ echo 'obase=16'; echo 'ibase=10'; echo $number; } | bc)\n")
+        table="${table}${output}" # concat conversion to table
 	fi
 
 done
+
+# print the table
+echo -e "$table" | column -t -s ':'
 # ==================================================================================================
