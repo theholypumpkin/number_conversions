@@ -23,7 +23,7 @@
 # Take any mathematical/numeric expression as an argument and return the absolute value
 # https://stackoverflow.com/questions/29223313/absolute-value-of-a-number
 abs() { 
-    echo $(( $1 > 0 ? $1 : -$1 )) # retun the absolut value 
+    echo $(( $1 > 0 ? $1 : -$1 )) # return the absolut value 
 }
 
 # _________________________________________________________________________________________________
@@ -57,7 +57,7 @@ do
 	if [ $prefix = '0X' ]; then
 		number_no_prefix=$(echo $number_upper | cut -c3-);
 
-        calculate_on_base $negative $number_no_prefix F+1 # calculate with base 10
+        calculate_on_base $negative $number_no_prefix F+1 # calculate with base 16
 		# output=$(echo "$number:0b$({ echo 'obase=2'; echo 'ibase=F+1'; echo $number_no_prefix; } | bc)\n")
         table="${table}${number}${output}\n" # concat conversion to table
 	# -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
