@@ -54,17 +54,18 @@ do
     # -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
     # figure out where to cut the string basied of we have a minus sign or not.
     sign=$(sign_bit $(echo $input | cut -d . -f 1))
-    [[ $sign -eq 0 ]] && bound=1 || bound=2;
-    [[ $sign -eq 1 ]] && number="-${number}" fixed_point="-${fixed_point}"
+    [[ $sign -eq 1 ]] && fixed_point="-${fixed_point}"
     # -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
-    single_tab="${single_tab}${input}:${fixed_point}:${sign}:${exponent_single}:${number:${bound}}${decimal}\n"
-    double_tab="${double_tab}${input}:${fixed_point}:${sign}:${exponent_double}:${number:${bound}}${decimal}\n"
+    # add result to tables
+    single_tab="${single_tab}${input}:${fixed_point}:${sign}:${exponent_single}:${number:1}${decimal}\n"
+    double_tab="${double_tab}${input}:${fixed_point}:${sign}:${exponent_double}:${number:1}${decimal}\n"
     # -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -
 done
 
 echo -e "$single_tab" | column -t -s ':'
-echo -e "\n"
+echo -e "" # empty line
 echo -e "$double_tab" | column -t -s ':'
+echo -e "" # empty line
 
 # =================================================================================================
 # end of file
