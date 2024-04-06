@@ -8,6 +8,8 @@ I wanted to get a better understanding of bash. So here are 3 bash scripts which
 
 `dec.sh` converts a number from binary or hexadecimal into decimal.
 
+`float.sh` converts your fixt point decimal number into the floating point binary representation in memory. It is using the *IEEE 754* Standart to do so. Similar to what [this Website](https://www.h-schmidt.net/FloatConverter/IEEE754.html "IEEE-754 Floating Point Converter") is doing but using bash. It outputs both single presicion (i.e a float) and double presicion (i.e a double).
+
 ## Installation
 
 ```bash
@@ -19,6 +21,8 @@ I wanted to get a better understanding of bash. So here are 3 bash scripts which
     ln <your/current/directory>/hex.sh /home/<your_username>/.local/bin/hex
     # link the decimal convesion to your applications folder
     ln <your/current/directory>/dec.sh /home/<your_username>/.local/bin/dec
+    # link the decimal convesion to your applications folder
+    ln <your/current/directory>/float.sh /home/<your_username>/.local/bin/float
 ```
 
 ## Usage
@@ -168,6 +172,22 @@ mix binary and hexadecimal
     # Input   Decimal
     # 0b1011  11
     # 0xBEEF  48879
+
+```
+
+## float
+
+convert mutiple fixed point decimal numbers into floating point numbers.
+
+```bash
+    float 85.125 -85.125
+    # Input    Fixed Point          Sign  Exponent (Single)  Manissa
+    # 85.125   1010101.0010000000   0     10000101           0101010010000000
+    # -85.125  -1010101.0010000000  1     10000101           0101010010000000
+
+    # Input    Fixed Point          Sign  Exponent (Double)  Manissa
+    # 85.125   1010101.0010000000   0     10000000101        0101010010000000
+    # -85.125  -1010101.0010000000  1     10000000101        0101010010000000
 
 ```
 
